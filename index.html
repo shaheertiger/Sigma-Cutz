@@ -156,6 +156,10 @@
       <p class="hero__sub">Premium fades, classic cuts, beard sculpts &amp; hot-towel shaves — crafted with care at 418 Blake St. Walk-ins welcome.</p>
 
       <div class="hero__proofbar">
+        <span id="heroStatus" class="status-badge status-badge--open" aria-live="polite">
+          <span class="dot"></span>
+          <span id="heroStatusText">Open now</span>
+        </span>
         <span class="hero__proof">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
           4.9 Google Rating · 187 Reviews
@@ -163,10 +167,6 @@
         <span class="hero__proof">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
           418 Blake St, Barrie
-        </span>
-        <span class="hero__proof">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-          Walk-Ins Welcome · Open 6 Days
         </span>
       </div>
 
@@ -770,11 +770,60 @@
     checkGallery();
     window.addEventListener('resize', checkGallery, { passive: true });
 
-    // Dynamic today marker in hours
-    (function() {
-      const dayMap = { 1:'Mon', 2:'Tue', 3:'Wed', 4:'Thu', 5:'Fri', 6:'Sat', 0:'Sun' };
-      const today = new Date().getDay();
-      // (hours table not in this version — dynamic handled via CSS class in map section if needed)
+    // Live open/closed status
+    (function () {
+      // Hours in Barrie local time (Eastern). Keyed by JS getDay() (0=Sun…6=Sat).
+      // Value: [openH, openM, closeH, closeM] or null for closed.
+      const HOURS = {
+        0: [10, 0, 16, 0],   // Sun
+        1: null,             // Mon — closed
+        2: [9, 0, 19, 0],   // Tue
+        3: [9, 0, 19, 0],   // Wed
+        4: [9, 0, 19, 0],   // Thu
+        5: [9, 0, 19, 0],   // Fri
+        6: [9, 0, 18, 0],   // Sat
+      };
+      const DAY_NAMES = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+      const fmt = (h, m) => `${h % 12 || 12}${m ? ':' + String(m).padStart(2,'0') : ''}${h < 12 ? 'am' : 'pm'}`;
+
+      function getStatus() {
+        // Use Eastern Time regardless of visitor timezone
+        const now = new Date(new Date().toLocaleString('en-US', { timeZone: 'America/Toronto' }));
+        const day = now.getDay();
+        const h = HOURS[day];
+        const mins = now.getHours() * 60 + now.getMinutes();
+        if (!h) return { open: false, label: 'Closed today', detail: 'Opens ' + DAY_NAMES[(day + 2) % 7] + ' at 9am' };
+        const [oh, om, ch, cm] = h;
+        const openMins = oh * 60 + om, closeMins = ch * 60 + cm;
+        if (mins < openMins) return { open: false, label: 'Opens at ' + fmt(oh, om), detail: 'Today ' + fmt(oh, om) + '–' + fmt(ch, cm) };
+        if (mins < closeMins) {
+          const minsLeft = closeMins - mins;
+          const soon = minsLeft <= 60;
+          return { open: true, label: soon ? 'Closing soon · ' + fmt(ch, cm) : 'Open until ' + fmt(ch, cm), detail: '' };
+        }
+        // Find next open day
+        for (let i = 1; i <= 7; i++) {
+          const next = HOURS[(day + i) % 7];
+          if (next) {
+            const nextName = i === 1 ? 'tomorrow' : DAY_NAMES[(day + i) % 7];
+            return { open: false, label: 'Closed · Opens ' + nextName, detail: '' };
+          }
+        }
+        return { open: false, label: 'Closed', detail: '' };
+      }
+
+      function applyStatus() {
+        const { open, label } = getStatus();
+        const badge = document.getElementById('heroStatus');
+        const text = document.getElementById('heroStatusText');
+        if (!badge || !text) return;
+        badge.className = 'status-badge ' + (open ? 'status-badge--open' : 'status-badge--closed');
+        text.textContent = label;
+      }
+
+      applyStatus();
+      // Refresh every minute so badge updates without a page reload
+      setInterval(applyStatus, 60000);
     })();
   </script>
 </body>
