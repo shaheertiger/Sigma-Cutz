@@ -123,18 +123,17 @@ img { display: block; max-width: 100%; height: auto; }
 .navbar__link:hover { color: var(--gold); }
 
 /* Centered logo */
-.navbar__logo { position: absolute; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 14px; z-index: 10; }
-.navbar__logo img { height: 52px; width: auto; object-fit: contain; filter: drop-shadow(0 0 12px rgba(212,175,55,0.2)); transition: filter 0.3s; }
-.navbar__logo:hover img { filter: drop-shadow(0 0 20px rgba(212,175,55,0.35)); }
-.navbar__logo-text { display: flex; flex-direction: column; line-height: 1.1; }
-.navbar__logo-name { font-family: 'Playfair Display', serif; font-size: 19px; font-weight: 600; letter-spacing: 0.06em; color: var(--gold); }
-.navbar__logo-tag { font-size: 9px; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: var(--w30); margin-top: 3px; }
+.navbar__logo { position: absolute; left: 50%; transform: translateX(-50%); display: flex; align-items: center; z-index: 10; }
+.navbar__logo img { height: 72px; width: auto; object-fit: contain; filter: drop-shadow(0 0 12px rgba(212,175,55,0.25)); transition: filter 0.3s; }
+.navbar__logo:hover img { filter: drop-shadow(0 0 24px rgba(212,175,55,0.5)); }
+.navbar__logo-text { display: none; }
+.navbar__logo-name { display: none; }
+.navbar__logo-tag { display: none; }
 
 /* Mobile hamburger */
 .nav-menu-btn { display: none; align-items: center; justify-content: center; width: 44px; height: 44px; border: 1px solid var(--glass-border); color: var(--w70); transition: border-color 0.3s, color 0.3s; }
 .nav-menu-btn:hover { border-color: rgba(212,175,55,0.4); color: var(--gold); }
-@media (max-width: 960px) { .nav-side { display: none; } .navbar__row { height: 72px; } .navbar__logo img { height: 44px; } .nav-menu-btn { display: flex; } }
-@media (max-width: 560px) { .navbar__logo-text { display: none; } }
+@media (max-width: 960px) { .nav-side { display: none; } .navbar__row { height: 72px; } .navbar__logo img { height: 60px; } .nav-menu-btn { display: flex; } }
 
 /* Drawer */
 .drawer { position: fixed; inset: 0; z-index: 200; background: rgba(10,10,10,0.98); display: none; flex-direction: column; align-items: center; justify-content: center; padding: 48px 32px; }
