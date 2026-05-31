@@ -443,57 +443,6 @@
 
   <div class="section__line"></div>
 
-  <!-- ===== Gallery ===== -->
-  <section class="section section--dark" id="gallery" aria-labelledby="gallery-title">
-    <div class="container">
-      <div style="text-align:center;margin-bottom:64px;" class="reveal">
-        <span class="sub-label">The Showcase</span>
-        <h2 class="section-title" id="gallery-title">Our Work</h2>
-      </div>
-
-      <div class="gallery__grid">
-        <div class="gallery__cell reveal d1">
-          <div class="gallery__ph glass-panel">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 2l2.5 5 5.5.8-4 3.9.9 5.5L12 14.7 7.1 17.2 8 11.7 4 7.8 9.5 7z"/></svg>
-            <span>Coming Soon</span>
-          </div>
-        </div>
-        <div class="gallery__cell reveal d2">
-          <div class="gallery__ph glass-panel">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 2l2.5 5 5.5.8-4 3.9.9 5.5L12 14.7 7.1 17.2 8 11.7 4 7.8 9.5 7z"/></svg>
-            <span>Coming Soon</span>
-          </div>
-        </div>
-        <div class="gallery__cell reveal d3">
-          <div class="gallery__ph glass-panel">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 2l2.5 5 5.5.8-4 3.9.9 5.5L12 14.7 7.1 17.2 8 11.7 4 7.8 9.5 7z"/></svg>
-            <span>Coming Soon</span>
-          </div>
-        </div>
-        <div class="gallery__cell reveal d4">
-          <div class="gallery__ph glass-panel">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 2l2.5 5 5.5.8-4 3.9.9 5.5L12 14.7 7.1 17.2 8 11.7 4 7.8 9.5 7z"/></svg>
-            <span>Coming Soon</span>
-          </div>
-        </div>
-        <div class="gallery__cell reveal d2" style="display:none;" id="gal5">
-          <div class="gallery__ph glass-panel">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 2l2.5 5 5.5.8-4 3.9.9 5.5L12 14.7 7.1 17.2 8 11.7 4 7.8 9.5 7z"/></svg>
-            <span>Coming Soon</span>
-          </div>
-        </div>
-        <div class="gallery__cell reveal d3" style="display:none;" id="gal6">
-          <div class="gallery__ph glass-panel">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 2l2.5 5 5.5.8-4 3.9.9 5.5L12 14.7 7.1 17.2 8 11.7 4 7.8 9.5 7z"/></svg>
-            <span>Coming Soon</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="section__line"></div>
-
   <!-- ===== Reviews ===== -->
   <section class="section reviews" id="reviews" aria-labelledby="reviews-title">
     <div class="container">
@@ -763,16 +712,6 @@
     drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', closeDrawer));
     drawer.addEventListener('click', e => { if (e.target === drawer) closeDrawer(); });
 
-    // Show gallery extras on larger screens
-    function checkGallery() {
-      const wide = window.matchMedia('(min-width: 640px)').matches;
-      const g5 = document.getElementById('gal5');
-      const g6 = document.getElementById('gal6');
-      if (g5) g5.style.display = wide ? '' : 'none';
-      if (g6) g6.style.display = wide ? '' : 'none';
-    }
-    checkGallery();
-    window.addEventListener('resize', checkGallery, { passive: true });
 
     // Live open/closed status
     (function () {
